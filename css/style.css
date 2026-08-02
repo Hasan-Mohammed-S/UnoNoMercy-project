@@ -1,5 +1,9 @@
                             Body {
                                 background-color: #e31818;
+                                display: flex;
+                                justify-content: center;
+                                flex-flow: column wrap;
+                                align-items: center;
                             }
                             
                             h1 {
@@ -53,4 +57,15 @@
                                 margin: 4px 2px;
                                 cursor: pointer;
                                 border: none;
+                            }
+                            
+                            div .game-page {
+                                border: 5px solid #000000;
+                                background-color: #026a00;
+                                padding: 100px;
+                                width: 350px;
+                                justify-content: flex-end;
+                                align-items: center;
+                                display: flex;
+                                flex-direction: column;
                             }

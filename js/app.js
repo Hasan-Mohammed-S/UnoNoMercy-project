@@ -7,15 +7,17 @@ class Card {
         this.image = image;
     }
 }
-/*
-const player1 = new Player(1, "Player 1", 0, []);
-const player2 = new Player(2, "Player 2", 0, []);
-const player3 = new Player(3, "Player 3", 0, []);
-*/
 
-const startButton = document.getElementById('startButton');
-const playerNameInput = document.getElementById('playerNameInput');
-const homePage = doucument.getElementById('homePage')
+const player1 = {
+    name: '',
+    hand: [],
+};
+
+
+
+const startButton = document.querySelector('.start');
+const playerNameInput = document.querySelector('.playerName');
+const homePage = document.querySelector('.home-page');
 
 startButton.addEventListener('click', () => {
     const playerName = playerNameInput.value.trim();
@@ -32,3 +34,12 @@ startButton.addEventListener('click', () => {
 
 });
 console.log(player1.name);
+
+function startGame() {
+    homePage.style.display = 'none';
+    console.log('Game Started');
+}
+
+function gamePage() {
+    gamePage.style.display = 'not none';
+}
