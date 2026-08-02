@@ -84,3 +84,39 @@ function dealCards() {
     console.log("Player 1's hand:", player1.hand);
     console.log("Starting Card:", discardPile[discardPile.length - 1]);
 }
+
+
+function renderGameUI() {
+    document.getElementById('displayPlayerName').innerText = `Cards For Player : ${player1.name}`;
+
+    const currentCard = discardPile[discardPile.length - 1];
+    const discardPileCardDiv = document.getElementById('discardPileCard');
+
+    discardPileCardDiv.innerHTML = `<img src="./images/${currentCard.image}" alt="Current Card" class="game-card">`;
+
+    const playerHandDisplayDiv = document.getElementById('playerHandDisplay');
+    playerHandDisplayDiv.innerHTML = '';
+
+    player1.hand.forEach((card, index) => {
+        const cardImg = document.createElement('img');
+        cardImg.src = `./images/${card.image}`;
+        cardImg.alt = `Card ${card.number}`;
+        cardImg.classList.add('game-card');
+        playerHandDisplayDiv.appendChild(cardImg);
+    });
+}
+
+
+function startGame() {
+    homePage.style.display = 'none';
+
+    const gamePageDiv = document.querySelector('.gamePage');
+    if (gamePageDiv) gamePageDiv.style.display = 'block';
+
+    console.log('Game Started');
+
+    shuffleCards();
+    dealCards();
+
+    renderGameUI();
+}
