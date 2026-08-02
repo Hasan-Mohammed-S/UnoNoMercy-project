@@ -92,16 +92,22 @@ function renderGameUI() {
     const currentCard = discardPile[discardPile.length - 1];
     const discardPileCardDiv = document.getElementById('discardPileCard');
 
-    discardPileCardDiv.innerHTML = `<img src="./images/${currentCard.image}" alt="Current Card" class="game-card">`;
+    discardPileCardDiv.innerHTML = `<img src="./Uno no mercy cards/${currentCard.image}" alt="Current Card" class="game-card">`;
 
     const playerHandDisplayDiv = document.getElementById('playerHandDisplay');
     playerHandDisplayDiv.innerHTML = '';
 
     player1.hand.forEach((card, index) => {
         const cardImg = document.createElement('img');
-        cardImg.src = `./images/${card.image}`;
+        cardImg.src = `./Uno no mercy cards/${card.image}`;
         cardImg.alt = `Card ${card.number}`;
         cardImg.classList.add('game-card');
+        playerHandDisplayDiv.appendChild(cardImg);
+
+        cardImg.addEventListener('click', () => {
+            playCard(index);
+        });
+
         playerHandDisplayDiv.appendChild(cardImg);
     });
 }
@@ -119,4 +125,54 @@ function startGame() {
     dealCards();
 
     renderGameUI();
+}
+
+
+function playerDrawCard() {
+    if (Cards.length > 0) {
+
+        const drawnCard = Cards.pop();
+        player1.hand.push(drawnCard);
+
+        console.log(`You drew a card: ${drawnCard.color} ${drawnCard.number || drawnCard.type}`);
+
+        renderGameUI();
+    } else {
+        alert("The cards in the draw pile have run out! We will reshuffle the deck later.");
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const drawBtn = document.getElementById('drawCardButton');
+    if (drawBtn) {
+        drawBtn.addEventListener('click', playerDrawCard);
+    }
+});
+
+
+function playCard(cardIndex) {
+    const selectedCard = player1.hand[cardIndex];
+    const currentTopCard = discardPile[discardPile.length - 1];
+
+    // شروط أونو نو ميرسي: تطابق اللون، أو الرقم، أو النوع، أو كرت جوكر (wild)
+    if (selectedCard.color === currentTopCard.color ||
+        selectedCard.number === currentTopCard.number ||
+        selectedCard.type === currentTopCard.type ||
+        selectedCard.color === 'wild' ||
+        selectedCard.type === 'wild') {
+
+        // 1. نقل الكرت المختار إلى الأرض
+        discardPile.push(selectedCard);
+
+        // 2. إزالته من يد اللاعب
+        player1.hand.splice(cardIndex, 1);
+
+        console.log(`Played successfully: ${selectedCard.color} ${selectedCard.number || selectedCard.type}`);
+
+        // 3. إعادة تحديث الشاشة فوراً لتعكس الوضع الجديد
+        renderGameUI();
+
+    } else {
+        alert("لا يمكنك لعب هذا الكرت! يجب أن يطابق كرت الأرض في اللون أو الرقم/الميزة. ❌");
+    }
 }
