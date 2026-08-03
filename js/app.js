@@ -127,7 +127,6 @@ function startGame() {
     renderGameUI();
 }
 
-
 function playerDrawCard() {
     if (Cards.length > 0) {
 
@@ -148,31 +147,3 @@ document.addEventListener('DOMContentLoaded', () => {
         drawBtn.addEventListener('click', playerDrawCard);
     }
 });
-
-
-function playCard(cardIndex) {
-    const selectedCard = player1.hand[cardIndex];
-    const currentTopCard = discardPile[discardPile.length - 1];
-
-    // شروط أونو نو ميرسي: تطابق اللون، أو الرقم، أو النوع، أو كرت جوكر (wild)
-    if (selectedCard.color === currentTopCard.color ||
-        selectedCard.number === currentTopCard.number ||
-        selectedCard.type === currentTopCard.type ||
-        selectedCard.color === 'wild' ||
-        selectedCard.type === 'wild') {
-
-        // 1. نقل الكرت المختار إلى الأرض
-        discardPile.push(selectedCard);
-
-        // 2. إزالته من يد اللاعب
-        player1.hand.splice(cardIndex, 1);
-
-        console.log(`Played successfully: ${selectedCard.color} ${selectedCard.number || selectedCard.type}`);
-
-        // 3. إعادة تحديث الشاشة فوراً لتعكس الوضع الجديد
-        renderGameUI();
-
-    } else {
-        alert("لا يمكنك لعب هذا الكرت! يجب أن يطابق كرت الأرض في اللون أو الرقم/الميزة. ❌");
-    }
-}
