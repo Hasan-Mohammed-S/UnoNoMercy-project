@@ -83,10 +83,35 @@
                                 transform: translateY(-10px);
                             }
                             
-                            div #GameArea {
-                                border: 300PX solid #6f3608;
-                                border-radius: 700px;
+                            #GameArea {
+                                background-color: #6f3608;
+                                border: 12px solid #4a2305;
+                                border-radius: 50%;
+                                width: 600px;
+                                height: 400px;
                                 display: flex;
-                                flex-wrap: wrap;
+                                justify-content: center;
+                                align-items: center;
+                                gap: 50px;
+                                margin: 30px auto;
+                                box-sizing: border-box;
+                                box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.6);
+                            }
+                            
+                            #GameArea h3,
+                            #GameArea p {
+                                color: #ffffff;
+                                text-shadow: 2px 2px 4px #000000;
+                                margin: 5px 0;
+                                font-size: 18px;
+                                text-align: center;
+                                font-family: sans-serif;
+                            }
+                            
+                            #currentCardArea,
+                            #drawPile {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
                                 justify-content: center;
                             }

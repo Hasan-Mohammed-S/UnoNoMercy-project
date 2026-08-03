@@ -147,3 +147,25 @@ document.addEventListener('DOMContentLoaded', () => {
         drawBtn.addEventListener('click', playerDrawCard);
     }
 });
+
+function playCard(cardIndex) {
+    const selectedCard = player1.hand[cardIndex];
+    const currentTopCard = discardPile[discardPile.length - 1];
+    if (selectedCard.color === currentTopCard.color ||
+        selectedCard.number === currentTopCard.number ||
+        selectedCard.type === currentTopCard.type ||
+        selectedCard.color === 'wild' ||
+        selectedCard.type === 'wild') {
+
+        discardPile.push(selectedCard);
+
+        player1.hand.splice(cardIndex, 1);
+
+        console.log(`Played: ${selectedCard.color} ${selectedCard.number || selectedCard.type}`);
+
+        renderGameUI();
+
+    } else {
+        alert("You cannot play this card! It must match the card on the table in color or number/feature. ❌");
+    }
+}
