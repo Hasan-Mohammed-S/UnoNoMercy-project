@@ -1,5 +1,9 @@
                                     Body {
-                                        background-color: #e31818;
+                                        background-image: url('../Uno no mercy cards/background.jpg');
+                                        background-size: cover;
+                                        background-position: center;
+                                        background-attachment: fixed;
+                                        background-repeat: no-repeat;
                                         display: flex;
                                         justify-content: center;
                                         flex-flow: column wrap;
@@ -210,4 +214,7 @@
                                         font-weight: bold;
                                         font-size: 20px;
                                         text-align: center;
+                                        text-shadow: 1px 1px 2px #000000;
+                                        font-family: sans-serif;
+                                        color: #2d8ca3;
                                     }
