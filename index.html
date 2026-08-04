@@ -25,26 +25,45 @@
 
     <div class="gamePage" style="display: none;">
 
+        <div class="opponents-container">
+            <div id="bot2-info" class="bot-profile">
+                <h3>Computer 1 🤖</h3>
+                <p>Cards: <span id="bot1CardCount">7</span></p>
+            </div>
+
+            <div id="bot3-info" class="bot-profile">
+                <h3>Computer 2 🤖</h3>
+                <p>Cards: <span id="bot2CardCount">7</span></p>
+            </div>
+        </div>
+
 
         <div id="GameArea">
             <div class="table-area">
+
                 <div id="drawPile" class="deck-stack">
-                    <p>Card withdrawal</p>
+                    <!-- <p>Card withdrawal</p> -->
                 </div>
                 <div id="currentCardArea"></div>
-                <h3>Card Now</h3>
+
+                <!--  <h3>Card Now</h3>-->
                 <div id="discardPileCard"></div>
+                <!--<button id="drawCardButton" class="draw-btn" image="url('./Uno no mercy cards/Draw.png')">Draw Card 🃏</button>-->
+                <!--    <img id="drawCardImage" src="./Uno no mercy cards/Draw.png" alt="Draw Card" style="width: 100px; height: 150px;">-->
+
             </div>
 
+            <div id="drawCardButton" class="deck-card-back">
+                <span class="draw-text"></span>
+            </div>
+        </div>
+        <div class="player-section">
+            <h3 id="displayPlayerName">Your Cards</h3>
+            <div id="playerHandDisplay" class="hand-container"></div>
         </div>
     </div>
-    <div class="player-section">
-        <h2 id="displayPlayerName">Your Cards</h2>
-        <div id="playerHandDisplay" class="hand-container"></div>
-    </div>
-    </div>
 
-    <button id="drawCardButton" class="draw-btn">Draw Card 🃏</button>
+
 
 </body>
 
