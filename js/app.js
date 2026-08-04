@@ -115,6 +115,7 @@ function renderGameUI() {
 
 function startGame() {
     homePage.style.display = 'none';
+    document.querySelector('h1.game-title').style.display = 'none';
 
     const gamePageDiv = document.querySelector('.gamePage');
     if (gamePageDiv) gamePageDiv.style.display = 'block';
