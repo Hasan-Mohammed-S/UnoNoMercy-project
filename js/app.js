@@ -139,6 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 let currentTurn = 1;
+let clockwise = true;
+let attackStack = 0;
+
+
 
 
 
@@ -177,6 +181,26 @@ function playCard(cardIndex) {
 
     discardPile.push(selectedCard);
 
+
+    if (selectedCard.type === "stop") {
+
+        player1.hand.splice(cardIndex, 1);
+
+        renderGameUI();
+
+        if (player1.hand.length === 0) {
+            alert("You Win!");
+            return;
+        }
+
+        currentTurn = 3;
+
+        setTimeout(() => {
+            computerTurn(player3, 1);
+        }, 1000);
+
+        return;
+    }
     player1.hand.splice(cardIndex, 1);
 
     renderGameUI();
@@ -191,6 +215,59 @@ function playCard(cardIndex) {
     setTimeout(() => {
         computerTurn(player2, 3);
     }, 1000);
+
+
+
+    // Reverse (Another Side)
+    if (selectedCard.type === "AnotherSide") {
+
+        clockwise = !clockwise;
+
+        renderGameUI();
+
+        if (player1.hand.length === 0) {
+            alert("You Win!");
+            return;
+        }
+
+        if (clockwise) {
+
+            currentTurn = 2;
+
+            setTimeout(() => {
+                computerTurn(player2);
+            }, 1000);
+
+        } else {
+
+            currentTurn = 3;
+
+            setTimeout(() => {
+                computerTurn(player3);
+            }, 1000);
+
+        }
+
+        return;
+    }
+
+
+
+    if (selectedCard.type === "+2") {
+
+        attackCards = 2;
+
+        renderGameUI();
+
+        currentTurn = 2;
+
+        setTimeout(() => {
+            computerTurn(player2);
+        }, 1000);
+
+        return;
+    }
+
 
 }
 
@@ -254,6 +331,37 @@ function computerTurn(computerPlayer, nextPlayerNum) {
 
         discardPile.push(playedCard);
 
+
+        if (playedCard.type === "stop") {
+
+            renderGameUI();
+
+            if (computerPlayer.hand.length === 0) {
+                alert(computerPlayer.name + " Wins!");
+                return;
+            }
+
+            // Computer 1 skips Computer 2
+            if (computerPlayer === player2) {
+
+                currentTurn = 1;
+
+                setTimeout(() => {
+                    renderGameUI();
+                }, 1000);
+
+            } else {
+
+                currentTurn = 2;
+
+                setTimeout(() => {
+                    computerTurn(player2, 3);
+                }, 1000);
+
+            }
+
+            return;
+        }
         console.log(computerPlayer.name + " played " + playedCard.image);
 
     } else {
@@ -278,19 +386,49 @@ function computerTurn(computerPlayer, nextPlayerNum) {
 
     }
 
-    currentTurn = nextPlayerNum;
 
-    if (currentTurn === 2) {
+    if (clockwise) {
 
-        setTimeout(() => {
-            computerTurn(player2, 3);
-        }, 1000);
+        if (computerPlayer === player2) {
 
-    } else if (currentTurn === 3) {
+            currentTurn = 3;
 
-        setTimeout(() => {
-            computerTurn(player3, 1);
-        }, 1000);
+            setTimeout(() => {
+                computerTurn(player3);
+            }, 1000);
+
+        } else {
+
+            currentTurn = 1;
+
+            renderGameUI();
+
+        }
+
+    } else {
+
+        if (computerPlayer === player3) {
+
+            currentTurn = 2;
+
+            setTimeout(() => {
+                computerTurn(player2);
+            }, 1000);
+
+        } else {
+
+            currentTurn = 1;
+
+            renderGameUI();
+
+        }
+
+    }
+
+
+    if (playedCard.type === "AnotherSide") {
+
+        clockwise = !clockwise;
 
     }
 
