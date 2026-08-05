@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let currentTurn = 1;
 let clockwise = true;
 let attackStack = 0;
-
+let lastAttackValue = 0;
 
 
 
@@ -218,7 +218,6 @@ function playCard(cardIndex) {
 
 
 
-    // Reverse (Another Side)
     if (selectedCard.type === "AnotherSide") {
 
         clockwise = !clockwise;
@@ -432,7 +431,23 @@ function computerTurn(computerPlayer, nextPlayerNum) {
 
     }
 
+
+    if (playableIndex !== -1) {
+        const playedCard = computerPlayer.hand.splice(playableIndex, 1)[0];
+        discardPile.push(playedCard);
+
+        if (playedCard.number === 7 || playedCard.type === "7") {
+            handleSevenCard(computerPlayer);
+        }
+
+    }
+
+
+
 }
+
+
+
 
 function renderGameUI() {
     document.getElementById('displayPlayerName').innerText = `Cards For Player : ${player1.name}`;
@@ -472,7 +487,3 @@ function renderGameUI() {
         playerHandDisplayDiv.appendChild(cardImg);
     });
 }
-
-
-
-let attackPool = 0;
