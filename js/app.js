@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let currentTurn = 1;
 let clockwise = true;
 let attackStack = 0;
-let lastAttackValue = 0;
+//let lastAttackValue = 0;
 
 
 
