@@ -577,7 +577,6 @@ function computerTurn(computerPlayer, botNum) {
         discardPile.push(playedCard);
 
 
-        // --- تطبيق خاصية Discard All / playAll للـ Bot ---
         if (playedCard.type === "discardAll" || playedCard.type === "playAll") {
             const sameColorCards = computerPlayer.hand.filter(c => c.color === playedCard.color);
             if (sameColorCards.length > 0) {
