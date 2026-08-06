@@ -214,3 +214,77 @@
                                 font-family: sans-serif;
                                 color: #2d8ca3;
                             }
+                            /* Container for color swatches */
+                            
+                            .color-options {
+                                display: flex;
+                                flex-wrap: wrap;
+                                justify-content: center;
+                                align-items: center;
+                                gap: 16px;
+                                padding: 15px;
+                            }
+                            /* Individual Color Swatch/Option */
+                            
+                            .color-option {
+                                width: 55px;
+                                height: 55px;
+                                border-radius: 50%;
+                                border: 3px solid rgba(255, 255, 255, 0.85);
+                                outline: none;
+                                cursor: pointer;
+                                position: relative;
+                                transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+                            }
+                            /* Hover Effect - Lift & Enlarge */
+                            
+                            .color-option:hover {
+                                transform: translateY(-4px) scale(1.12);
+                                border-color: #ffffff;
+                            }
+                            /* Click Effect */
+                            
+                            .color-option:active {
+                                transform: scale(0.95);
+                            }
+                            /* Selected State Ring */
+                            
+                            .color-option.selected {
+                                border-color: #ffffff;
+                                transform: scale(1.15);
+                                box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35), 0 8px 20px rgba(0, 0, 0, 0.4);
+                            }
+                            /* Color Variants with Vibrant Gradients & Matching Glows */
+                            
+                            .color-option.red {
+                                background: linear-gradient(135deg, #ff5252, #e74c3c);
+                            }
+                            
+                            .color-option.red:hover {
+                                box-shadow: 0 8px 22px rgba(231, 76, 60, 0.6);
+                            }
+                            
+                            .color-option.blue {
+                                background: linear-gradient(135deg, #448aff, #3498db);
+                            }
+                            
+                            .color-option.blue:hover {
+                                box-shadow: 0 8px 22px rgba(52, 152, 219, 0.6);
+                            }
+                            
+                            .color-option.green {
+                                background: linear-gradient(135deg, #69f0ae, #2ecc71);
+                            }
+                            
+                            .color-option.green:hover {
+                                box-shadow: 0 8px 22px rgba(46, 204, 113, 0.6);
+                            }
+                            
+                            .color-option.yellow {
+                                background: linear-gradient(135deg, #ffd740, #f1c40f);
+                            }
+                            
+                            .color-option.yellow:hover {
+                                box-shadow: 0 8px 22px rgba(241, 196, 15, 0.6);
+                            }
