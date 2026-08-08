@@ -57,7 +57,6 @@ startButton.addEventListener('click', () => {
     player1.name = playerName;
     startGame();
 });
-console.log(player1.name);
 
 
 
@@ -69,7 +68,7 @@ function shuffleCards() {
         [Cards[i], Cards[j]] = [Cards[j], Cards[i]];
     }
 
-    console.log('Shuffle Cards:', Cards.length);
+
 }
 
 
@@ -82,9 +81,6 @@ function dealCards() {
 
     discardPile.push(Cards.pop());
 
-    console.log("The papers have been distributed.");
-    console.log("Player 1's hand:", player1.hand);
-    console.log("Starting Card:", discardPile[discardPile.length - 1]);
 }
 
 
@@ -97,7 +93,6 @@ function startGame() {
     const gamePageDiv = document.querySelector('.gamePage');
     if (gamePageDiv) gamePageDiv.style.display = 'block';
 
-    console.log('Game Started');
 
     player1.eliminated = false;
     player2.eliminated = false;
@@ -376,7 +371,6 @@ async function handleSevenCard(whoPlayed) {
             whoPlayed.hand = [...targetPlayer.hand];
             targetPlayer.hand = tempHand;
 
-            console.log(`${whoPlayed.name} swapped hands with ${targetPlayer.name}!`);
         }
     }
 }
@@ -663,9 +657,6 @@ function playerDrawCard() {
 
         player1.hand.push(drawnCard);
 
-        console.log(
-            `You drew a card: ${drawnCard.color} ${drawnCard.number || drawnCard.type}`
-        );
 
         if (checkMercyRule(player1)) {
             renderGameUI();
@@ -748,13 +739,6 @@ function computerTurn(computerPlayer, botNum) {
                 attackStack += 10;
             }
 
-            console.log(
-                computerPlayer.name +
-                " stacked " +
-                playedCard.type +
-                "! Total attack: " +
-                attackStack
-            );
 
             renderGameUI();
             updateGameStatus();
@@ -773,12 +757,7 @@ function computerTurn(computerPlayer, botNum) {
 
         } else {
 
-            console.log(
-                computerPlayer.name +
-                " drew " +
-                attackStack +
-                " cards due to attack."
-            );
+
 
             for (let i = 0; i < attackStack; i++) {
                 if (Cards.length > 0) {
@@ -872,9 +851,6 @@ function computerTurn(computerPlayer, botNum) {
                     c => c.color !== playedCard.color
                 );
 
-                console.log(
-                    `${computerPlayer.name} discarded all ${sameColorCards.length + 1} ${playedCard.color} cards!`
-                );
             }
         }
 
@@ -915,11 +891,6 @@ function computerTurn(computerPlayer, botNum) {
             return;
         }
 
-        console.log(
-            computerPlayer.name +
-            " played " +
-            playedCard.image
-        );
 
     } else {
 
@@ -927,10 +898,7 @@ function computerTurn(computerPlayer, botNum) {
 
             computerPlayer.hand.push(Cards.pop());
 
-            console.log(
-                computerPlayer.name +
-                " drew a card."
-            );
+
 
             if (checkMercyRule(computerPlayer)) {
                 renderGameUI();
