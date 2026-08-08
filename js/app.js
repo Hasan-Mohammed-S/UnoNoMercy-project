@@ -28,12 +28,20 @@ const homePage = document.querySelector('.home-page');
 const messageDisplay = document.querySelector('.message-display');
 
 function showMessage(message) {
-    messageDisplay.textContent = message;
-    messageDisplay.classList.add('show');
+    let display = document.querySelector('.message-display');
+
+    if (!display) {
+        display = document.createElement('div');
+        display.className = 'message-display';
+        document.body.appendChild(display);
+    }
+
+    display.textContent = message;
+    display.classList.add('show');
 
     setTimeout(() => {
-        messageDisplay.classList.remove('show');
-        messageDisplay.textContent = '';
+        display.classList.remove('show');
+        display.textContent = '';
     }, 2500);
 }
 
@@ -42,6 +50,7 @@ startButton.addEventListener('click', () => {
 
     if (playerName === "") {
         showMessage('Enter Your Name');
+        playerNameInput.focus();
         return;
     }
 
@@ -103,6 +112,7 @@ function startGame() {
 
 document.addEventListener('DOMContentLoaded', () => {
     const drawBtn = document.getElementById('drawCardButton');
+
     if (drawBtn) {
         drawBtn.addEventListener('click', playerDrawCard);
     }
@@ -167,20 +177,13 @@ function updateGameStatus() {
 function showWinner(player) {
     gameOver = true;
 
-    const winnerMessage = document.getElementById('winnerMessage');
+    const winnerModal = document.getElementById('winnerModal');
+    const winnerName = document.getElementById('winnerName');
 
-    if (winnerMessage) {
-        winnerMessage.textContent = `🎉 ${player.name} is the Winner!`;
-        winnerMessage.style.display = 'block';
+    if (winnerModal && winnerName) {
+        winnerName.textContent = `${player.name} is the Winner!`;
+        winnerModal.style.display = 'flex';
     }
-
-    const restartButton = document.getElementById('restartGameButton');
-
-    if (restartButton) {
-        restartButton.style.display = 'block';
-    }
-
-    showMessage(`🎉 ${player.name} is the Winner!`);
 }
 
 
@@ -201,17 +204,10 @@ function restartGame() {
     Cards = [];
     discardPile = [];
 
-    const winnerMessage = document.getElementById('winnerMessage');
+    const winnerModal = document.getElementById('winnerModal');
 
-    if (winnerMessage) {
-        winnerMessage.textContent = '';
-        winnerMessage.style.display = 'none';
-    }
-
-    const restartButton = document.getElementById('restartGameButton');
-
-    if (restartButton) {
-        restartButton.style.display = 'none';
+    if (winnerModal) {
+        winnerModal.style.display = 'none';
     }
 
     shuffleCards();
@@ -221,23 +217,25 @@ function restartGame() {
 
 
 function createRestartButton() {
-    let winnerMessage = document.getElementById('winnerMessage');
-    let restartButton = document.getElementById('restartGameButton');
+    let winnerModal = document.getElementById('winnerModal');
 
-    if (!winnerMessage) {
-        winnerMessage = document.createElement('div');
-        winnerMessage.id = 'winnerMessage';
-        winnerMessage.style.display = 'none';
-        document.body.appendChild(winnerMessage);
-    }
+    if (!winnerModal) {
+        winnerModal = document.createElement('div');
+        winnerModal.id = 'winnerModal';
 
-    if (!restartButton) {
-        restartButton = document.createElement('button');
-        restartButton.id = 'restartGameButton';
-        restartButton.textContent = 'Play Again';
-        restartButton.style.display = 'none';
+        winnerModal.innerHTML = `
+            <div id="winnerBox">
+                <div id="winnerTitle">🎉 Winner! 🎉</div>
+                <div id="winnerName"></div>
+                <button id="restartGameButton">Play Again</button>
+            </div>
+        `;
+
+        document.body.appendChild(winnerModal);
+
+        const restartButton = document.getElementById('restartGameButton');
+
         restartButton.addEventListener('click', restartGame);
-        document.body.appendChild(restartButton);
     }
 }
 
@@ -250,6 +248,7 @@ function chooseColorModal() {
             modal = document.createElement('div');
             modal.id = 'colorPickerModal';
             modal.className = 'color-picker-modal';
+
             modal.innerHTML = `
                 <div class="color-picker-content">
                     <h3>Choose Color</h3>
@@ -261,20 +260,29 @@ function chooseColorModal() {
                     </div>
                 </div>
             `;
+
             document.body.appendChild(modal);
         }
 
         modal.style.display = 'flex';
 
         const buttons = modal.querySelectorAll('.color-btn');
+
         const handleColorClick = (e) => {
             const selectedColor = e.target.getAttribute('data-color');
+
             modal.style.display = 'none';
-            buttons.forEach(btn => btn.removeEventListener('click', handleColorClick));
+
+            buttons.forEach(btn => {
+                btn.removeEventListener('click', handleColorClick);
+            });
+
             resolve(selectedColor);
         };
 
-        buttons.forEach(btn => btn.addEventListener('click', handleColorClick));
+        buttons.forEach(btn => {
+            btn.addEventListener('click', handleColorClick);
+        });
     });
 }
 
@@ -287,6 +295,7 @@ function choosePlayerModal() {
             modal = document.createElement('div');
             modal.id = 'playerPickerModal';
             modal.className = 'color-picker-modal';
+
             modal.innerHTML = `
                 <div class="color-picker-content">
                     <h3>Swap Cards With Who?</h3>
@@ -296,20 +305,29 @@ function choosePlayerModal() {
                     </div>
                 </div>
             `;
+
             document.body.appendChild(modal);
         }
 
         modal.style.display = 'flex';
 
         const buttons = modal.querySelectorAll('.target-btn');
+
         const handleClick = (e) => {
             const target = e.target.getAttribute('data-target');
+
             modal.style.display = 'none';
-            buttons.forEach(btn => btn.removeEventListener('click', handleClick));
+
+            buttons.forEach(btn => {
+                btn.removeEventListener('click', handleClick);
+            });
+
             resolve(target === "2" ? player2 : player3);
         };
 
-        buttons.forEach(btn => btn.addEventListener('click', handleClick));
+        buttons.forEach(btn => {
+            btn.addEventListener('click', handleClick);
+        });
     });
 }
 
@@ -328,6 +346,7 @@ function handleZeroCard() {
         player3.hand = player1.hand;
         player1.hand = tempHand;
     }
+
     showMessage("🔄 Card 0! All hands have been rotated!");
 }
 
@@ -335,18 +354,28 @@ function handleZeroCard() {
 async function handleSevenCard(whoPlayed) {
     if (whoPlayed === player1) {
         const targetPlayer = await choosePlayerModal();
+
         const tempHand = [...player1.hand];
+
         player1.hand = [...targetPlayer.hand];
         targetPlayer.hand = tempHand;
+
         showMessage(`🔄 Swapped hands with ${targetPlayer.name}!`);
     } else {
-        const candidates = [player1, player2, player3].filter(p => p !== whoPlayed && !p.eliminated);
+        const candidates = [player1, player2, player3].filter(
+            p => p !== whoPlayed && !p.eliminated
+        );
+
         if (candidates.length > 0) {
             candidates.sort((a, b) => a.hand.length - b.hand.length);
+
             const targetPlayer = candidates[0];
+
             const tempHand = [...whoPlayed.hand];
+
             whoPlayed.hand = [...targetPlayer.hand];
             targetPlayer.hand = tempHand;
+
             console.log(`${whoPlayed.name} swapped hands with ${targetPlayer.name}!`);
         }
     }
@@ -358,9 +387,14 @@ function checkMercyRule(player) {
     if (player.hand.length >= 25 && !player.eliminated) {
         player.eliminated = true;
         player.hand = [];
-        showMessage(`💥 Mercy Rule! ${player.name} has 25 or more cards and is OUT of the game!`);
 
-        const activePlayers = [player1, player2, player3].filter(p => !p.eliminated);
+        showMessage(
+            `💥 Mercy Rule! ${player.name} has 25 or more cards and is OUT of the game!`
+        );
+
+        const activePlayers = [player1, player2, player3].filter(
+            p => !p.eliminated
+        );
 
         if (activePlayers.length === 1) {
             showWinner(activePlayers[0]);
@@ -374,13 +408,19 @@ function checkMercyRule(player) {
 
         return true;
     }
+
     return false;
 }
 
 
 function getNextTurn(fromTurn) {
     let next = fromTurn;
-    const players = { 1: player1, 2: player2, 3: player3 };
+
+    const players = {
+        1: player1,
+        2: player2,
+        3: player3
+    };
 
     for (let i = 0; i < 3; i++) {
         if (clockwise) {
@@ -388,29 +428,40 @@ function getNextTurn(fromTurn) {
         } else {
             next = next === 1 ? 3 : next - 1;
         }
+
         if (!players[next].eliminated) {
             return next;
         }
     }
+
     return next;
 }
 
 
 function getBestColorForBot(botHand) {
-    const colorCounts = { red: 0, blue: 0, green: 0, yellow: 0 };
+    const colorCounts = {
+        red: 0,
+        blue: 0,
+        green: 0,
+        yellow: 0
+    };
+
     botHand.forEach(card => {
         if (colorCounts[card.color] !== undefined) {
             colorCounts[card.color]++;
         }
     });
+
     let bestColor = 'red';
     let max = -1;
+
     for (const color in colorCounts) {
         if (colorCounts[color] > max) {
             max = colorCounts[color];
             bestColor = color;
         }
     }
+
     return bestColor;
 }
 
@@ -431,7 +482,9 @@ async function playCard(cardIndex) {
     const currentTopCard = discardPile[discardPile.length - 1];
 
     if (attackStack > 0 && !selectedCard.type.includes("+")) {
-        showMessage(`You are under attack (+${attackStack})! Play a + card or draw cards.`);
+        showMessage(
+            `You are under attack (+${attackStack})! Play a + card or draw cards.`
+        );
         return;
     }
 
@@ -453,7 +506,10 @@ async function playCard(cardIndex) {
     }
 
 
-    if (selectedCard.color === "black" || selectedCard.type.startsWith("wild")) {
+    if (
+        selectedCard.color === "black" ||
+        selectedCard.type.startsWith("wild")
+    ) {
         const chosenColor = await chooseColorModal();
         selectedCard.color = chosenColor;
     }
@@ -462,12 +518,24 @@ async function playCard(cardIndex) {
     player1.hand.splice(cardIndex, 1);
 
 
-    if (selectedCard.type === "discardAll" || selectedCard.type === "playAll") {
-        const sameColorCards = player1.hand.filter(c => c.color === selectedCard.color);
+    if (
+        selectedCard.type === "discardAll" ||
+        selectedCard.type === "playAll"
+    ) {
+        const sameColorCards = player1.hand.filter(
+            c => c.color === selectedCard.color
+        );
+
         if (sameColorCards.length > 0) {
             discardPile.push(...sameColorCards);
-            player1.hand = player1.hand.filter(c => c.color !== selectedCard.color);
-            showMessage(`🗑️ Discarded all ${sameColorCards.length + 1} ${selectedCard.color} cards!`);
+
+            player1.hand = player1.hand.filter(
+                c => c.color !== selectedCard.color
+            );
+
+            showMessage(
+                `🗑️ Discarded all ${sameColorCards.length + 1} ${selectedCard.color} cards!`
+            );
         }
     }
 
@@ -525,10 +593,15 @@ async function playCard(cardIndex) {
 
 
 
-    if (selectedCard.type === "+2") attackStack += 2;
-    else if (selectedCard.type === "wild+4") attackStack += 4;
-    else if (selectedCard.type === "wild+6") attackStack += 6;
-    else if (selectedCard.type === "wild+10") attackStack += 10;
+    if (selectedCard.type === "+2") {
+        attackStack += 2;
+    } else if (selectedCard.type === "wild+4") {
+        attackStack += 4;
+    } else if (selectedCard.type === "wild+6") {
+        attackStack += 6;
+    } else if (selectedCard.type === "wild+10") {
+        attackStack += 10;
+    }
 
 
     renderGameUI();
@@ -579,15 +652,20 @@ function playerDrawCard() {
 
         currentTurn = getNextTurn(1);
         updateGameStatus();
+
         setTimeout(() => triggerTurn(), 1500);
+
         return;
     }
 
     if (Cards.length > 0) {
         const drawnCard = Cards.pop();
+
         player1.hand.push(drawnCard);
 
-        console.log(`You drew a card: ${drawnCard.color} ${drawnCard.number || drawnCard.type}`);
+        console.log(
+            `You drew a card: ${drawnCard.color} ${drawnCard.number || drawnCard.type}`
+        );
 
         if (checkMercyRule(player1)) {
             renderGameUI();
@@ -598,9 +676,12 @@ function playerDrawCard() {
 
         currentTurn = getNextTurn(1);
         updateGameStatus();
+
         setTimeout(() => triggerTurn(), 1500);
     } else {
-        showMessage("The cards in the draw pile have run out! We will reshuffle the deck later.");
+        showMessage(
+            "The cards in the draw pile have run out! We will reshuffle the deck later."
+        );
     }
 }
 
@@ -628,30 +709,52 @@ function computerTurn(computerPlayer, botNum) {
 
     if (computerPlayer.eliminated) {
         currentTurn = getNextTurn(botNum);
+        updateGameStatus();
         triggerTurn();
         return;
     }
 
     if (attackStack > 0) {
 
-        const attackCardIndex = computerPlayer.hand.findIndex(card => card.type && card.type.includes("+"));
+        const attackCardIndex = computerPlayer.hand.findIndex(
+            card => card.type && card.type.includes("+")
+        );
 
         if (attackCardIndex !== -1) {
 
-            const playedCard = computerPlayer.hand.splice(attackCardIndex, 1)[0];
+            const playedCard = computerPlayer.hand.splice(
+                attackCardIndex,
+                1
+            )[0];
 
-            if (playedCard.color === "black" || playedCard.type.startsWith("wild")) {
-                playedCard.color = getBestColorForBot(computerPlayer.hand);
+            if (
+                playedCard.color === "black" ||
+                playedCard.type.startsWith("wild")
+            ) {
+                playedCard.color = getBestColorForBot(
+                    computerPlayer.hand
+                );
             }
 
             discardPile.push(playedCard);
 
-            if (playedCard.type === "+2") attackStack += 2;
-            else if (playedCard.type === "wild+4") attackStack += 4;
-            else if (playedCard.type === "wild+6") attackStack += 6;
-            else if (playedCard.type === "wild+10") attackStack += 10;
+            if (playedCard.type === "+2") {
+                attackStack += 2;
+            } else if (playedCard.type === "wild+4") {
+                attackStack += 4;
+            } else if (playedCard.type === "wild+6") {
+                attackStack += 6;
+            } else if (playedCard.type === "wild+10") {
+                attackStack += 10;
+            }
 
-            console.log(computerPlayer.name + " stacked " + playedCard.type + "! Total attack: " + attackStack);
+            console.log(
+                computerPlayer.name +
+                " stacked " +
+                playedCard.type +
+                "! Total attack: " +
+                attackStack
+            );
 
             renderGameUI();
             updateGameStatus();
@@ -670,7 +773,12 @@ function computerTurn(computerPlayer, botNum) {
 
         } else {
 
-            console.log(computerPlayer.name + " drew " + attackStack + " cards due to attack.");
+            console.log(
+                computerPlayer.name +
+                " drew " +
+                attackStack +
+                " cards due to attack."
+            );
 
             for (let i = 0; i < attackStack; i++) {
                 if (Cards.length > 0) {
@@ -682,12 +790,18 @@ function computerTurn(computerPlayer, botNum) {
 
             if (checkMercyRule(computerPlayer)) {
                 renderGameUI();
-                const active = [player1, player2, player3].filter(p => !p.eliminated);
-                if (active.length > 1) {
+
+                const active = [player1, player2, player3].filter(
+                    p => !p.eliminated
+                );
+
+                if (active.length > 1 && !gameOver) {
                     currentTurn = getNextTurn(botNum);
                     updateGameStatus();
+
                     setTimeout(() => triggerTurn(), 1000);
                 }
+
                 return;
             }
 
@@ -695,12 +809,11 @@ function computerTurn(computerPlayer, botNum) {
 
             currentTurn = getNextTurn(botNum);
             updateGameStatus();
+
             setTimeout(() => triggerTurn(), 1000);
 
             return;
-
         }
-
     }
 
 
@@ -727,31 +840,57 @@ function computerTurn(computerPlayer, botNum) {
 
     if (playableIndex !== -1) {
 
-        playedCard = computerPlayer.hand.splice(playableIndex, 1)[0];
+        playedCard = computerPlayer.hand.splice(
+            playableIndex,
+            1
+        )[0];
 
-        if (playedCard.color === "black" || playedCard.type.startsWith("wild")) {
-            playedCard.color = getBestColorForBot(computerPlayer.hand);
+        if (
+            playedCard.color === "black" ||
+            playedCard.type.startsWith("wild")
+        ) {
+            playedCard.color = getBestColorForBot(
+                computerPlayer.hand
+            );
         }
 
         discardPile.push(playedCard);
 
 
-        if (playedCard.type === "discardAll" || playedCard.type === "playAll") {
-            const sameColorCards = computerPlayer.hand.filter(c => c.color === playedCard.color);
+        if (
+            playedCard.type === "discardAll" ||
+            playedCard.type === "playAll"
+        ) {
+            const sameColorCards = computerPlayer.hand.filter(
+                c => c.color === playedCard.color
+            );
+
             if (sameColorCards.length > 0) {
                 discardPile.push(...sameColorCards);
-                computerPlayer.hand = computerPlayer.hand.filter(c => c.color !== playedCard.color);
-                console.log(`${computerPlayer.name} discarded all ${sameColorCards.length + 1} ${playedCard.color} cards!`);
+
+                computerPlayer.hand = computerPlayer.hand.filter(
+                    c => c.color !== playedCard.color
+                );
+
+                console.log(
+                    `${computerPlayer.name} discarded all ${sameColorCards.length + 1} ${playedCard.color} cards!`
+                );
             }
         }
 
 
-        if (playedCard.number === 0 || playedCard.type === "0") {
+        if (
+            playedCard.number === 0 ||
+            playedCard.type === "0"
+        ) {
             handleZeroCard();
         }
 
 
-        if (playedCard.number === 7 || playedCard.type === "7") {
+        if (
+            playedCard.number === 7 ||
+            playedCard.type === "7"
+        ) {
             handleSevenCard(computerPlayer);
         }
 
@@ -765,14 +904,22 @@ function computerTurn(computerPlayer, botNum) {
                 return;
             }
 
-            currentTurn = getNextTurn(getNextTurn(botNum));
+            currentTurn = getNextTurn(
+                getNextTurn(botNum)
+            );
+
             updateGameStatus();
 
             setTimeout(() => triggerTurn(), 1000);
 
             return;
         }
-        console.log(computerPlayer.name + " played " + playedCard.image);
+
+        console.log(
+            computerPlayer.name +
+            " played " +
+            playedCard.image
+        );
 
     } else {
 
@@ -780,33 +927,56 @@ function computerTurn(computerPlayer, botNum) {
 
             computerPlayer.hand.push(Cards.pop());
 
-            console.log(computerPlayer.name + " drew a card.");
+            console.log(
+                computerPlayer.name +
+                " drew a card."
+            );
 
             if (checkMercyRule(computerPlayer)) {
                 renderGameUI();
-                const active = [player1, player2, player3].filter(p => !p.eliminated);
-                if (active.length > 1) {
+
+                const active = [player1, player2, player3].filter(
+                    p => !p.eliminated
+                );
+
+                if (active.length > 1 && !gameOver) {
                     currentTurn = getNextTurn(botNum);
                     updateGameStatus();
+
                     setTimeout(() => triggerTurn(), 1000);
                 }
+
                 return;
             }
-
         }
-
     }
 
 
-    if (playedCard && playedCard.type === "+2") attackStack += 2;
-    else if (playedCard && playedCard.type === "wild+4") attackStack += 4;
-    else if (playedCard && playedCard.type === "wild+6") attackStack += 6;
-    else if (playedCard && playedCard.type === "wild+10") attackStack += 10;
+    if (playedCard && playedCard.type === "+2") {
+        attackStack += 2;
+    } else if (
+        playedCard &&
+        playedCard.type === "wild+4"
+    ) {
+        attackStack += 4;
+    } else if (
+        playedCard &&
+        playedCard.type === "wild+6"
+    ) {
+        attackStack += 6;
+    } else if (
+        playedCard &&
+        playedCard.type === "wild+10"
+    ) {
+        attackStack += 10;
+    }
 
-    if (playedCard && playedCard.type === "AnotherSide") {
 
+    if (
+        playedCard &&
+        playedCard.type === "AnotherSide"
+    ) {
         clockwise = !clockwise;
-
     }
 
     renderGameUI();
@@ -827,46 +997,91 @@ function computerTurn(computerPlayer, botNum) {
 
 
 function renderGameUI() {
-    document.getElementById('displayPlayerName').innerText = player1.eliminated ?
+    document.getElementById('displayPlayerName').innerText =
+        player1.eliminated ?
         `Player ${player1.name} (Eliminated)` :
         `Cards For Player : ${player1.name}`;
 
     const bot1Count = document.getElementById('bot1CardCount');
     const bot2Count = document.getElementById('bot2CardCount');
-    if (bot1Count) bot1Count.innerText = player2.eliminated ? 'OUT' : player2.hand.length;
-    if (bot2Count) bot2Count.innerText = player3.eliminated ? 'OUT' : player3.hand.length;
+
+    if (bot1Count) {
+        bot1Count.innerText = player2.eliminated ?
+            'OUT' :
+            player2.hand.length;
+    }
+
+    if (bot2Count) {
+        bot2Count.innerText = player3.eliminated ?
+            'OUT' :
+            player3.hand.length;
+    }
 
     const bot2InfoDiv = document.getElementById('bot2-info');
     const bot3InfoDiv = document.getElementById('bot3-info');
 
-    if (bot2InfoDiv) bot2InfoDiv.classList.remove('active-turn-glow');
-    if (bot3InfoDiv) bot3InfoDiv.classList.remove('active-turn-glow');
+    if (bot2InfoDiv) {
+        bot2InfoDiv.classList.remove('active-turn-glow');
+    }
 
-    if (currentTurn === 2 && bot2InfoDiv && !player2.eliminated) {
+    if (bot3InfoDiv) {
+        bot3InfoDiv.classList.remove('active-turn-glow');
+    }
+
+    if (
+        currentTurn === 2 &&
+        bot2InfoDiv &&
+        !player2.eliminated
+    ) {
         bot2InfoDiv.classList.add('active-turn-glow');
-    } else if (currentTurn === 3 && bot3InfoDiv && !player3.eliminated) {
+
+    } else if (
+        currentTurn === 3 &&
+        bot3InfoDiv &&
+        !player3.eliminated
+    ) {
         bot3InfoDiv.classList.add('active-turn-glow');
     }
 
-    const currentCard = discardPile[discardPile.length - 1];
-    const discardPileCardDiv = document.getElementById('discardPileCard');
-    if (discardPileCardDiv && currentCard) {
-        discardPileCardDiv.innerHTML = `<img src="./Uno no mercy cards/${currentCard.image}" alt="Current Card" class="game-card">`;
+    const currentCard =
+        discardPile[discardPile.length - 1];
+
+    const discardPileCardDiv =
+        document.getElementById('discardPileCard');
+
+    if (
+        discardPileCardDiv &&
+        currentCard
+    ) {
+        discardPileCardDiv.innerHTML =
+            `<img src="./Uno no mercy cards/${currentCard.image}" alt="Current Card" class="game-card">`;
     }
 
-    const playerHandDisplayDiv = document.getElementById('playerHandDisplay');
+    const playerHandDisplayDiv =
+        document.getElementById('playerHandDisplay');
+
     if (playerHandDisplayDiv) {
         playerHandDisplayDiv.innerHTML = '';
 
         player1.hand.forEach((card, index) => {
-            const cardImg = document.createElement('img');
-            cardImg.src = `./Uno no mercy cards/${card.image}`;
-            cardImg.alt = `Card ${card.number || card.type}`;
+
+            const cardImg =
+                document.createElement('img');
+
+            cardImg.src =
+                `./Uno no mercy cards/${card.image}`;
+
+            cardImg.alt =
+                `Card ${card.number || card.type}`;
+
             cardImg.classList.add('game-card');
 
-            cardImg.addEventListener('click', () => {
-                playCard(index);
-            });
+            cardImg.addEventListener(
+                'click',
+                () => {
+                    playCard(index);
+                }
+            );
 
             playerHandDisplayDiv.appendChild(cardImg);
         });
