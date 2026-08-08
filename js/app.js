@@ -25,13 +25,23 @@ let discardPile = [];
 const startButton = document.querySelector('.start');
 const playerNameInput = document.querySelector('.playerName');
 const homePage = document.querySelector('.home-page');
-const messageDisplay = document.querySelector('.message-display')
+const messageDisplay = document.querySelector('.message-display');
+
+function showMessage(message) {
+    messageDisplay.textContent = message;
+    messageDisplay.classList.add('show');
+
+    setTimeout(() => {
+        messageDisplay.classList.remove('show');
+        messageDisplay.textContent = '';
+    }, 2500);
+}
 
 startButton.addEventListener('click', () => {
     const playerName = playerNameInput.value.trim();
 
     if (playerName === "") {
-        alert('Enter Your Name');
+        showMessage('Enter Your Name');
         return;
     }
 
@@ -70,6 +80,8 @@ function dealCards() {
 
 
 function startGame() {
+    gameOver = false;
+
     homePage.style.display = 'none';
     document.querySelector('h1.game-title').style.display = 'none';
 
@@ -97,12 +109,137 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
 let currentTurn = 1;
 let clockwise = true;
 let attackStack = 0;
+let gameOver = false;
 
 
+function updateGameStatus() {
+    const colorDisplay = document.getElementById('currentColorDisplay');
+    const attackDisplay = document.getElementById('attackDisplay');
+    const drawAmountDisplay = document.getElementById('drawAmountDisplay');
+    const turnDisplay = document.getElementById('currentTurnDisplay');
+
+    const currentCard = discardPile[discardPile.length - 1];
+
+    if (colorDisplay && currentCard) {
+        let currentColor = currentCard.color;
+
+        if (currentColor === "black") {
+            currentColor = "wild";
+        }
+
+        colorDisplay.textContent = currentColor;
+        colorDisplay.className = '';
+
+        if (currentColor === "red") {
+            colorDisplay.classList.add('color-red');
+        } else if (currentColor === "blue") {
+            colorDisplay.classList.add('color-blue');
+        } else if (currentColor === "green") {
+            colorDisplay.classList.add('color-green');
+        } else if (currentColor === "yellow") {
+            colorDisplay.classList.add('color-yellow');
+        }
+    }
+
+    if (attackDisplay) {
+        attackDisplay.textContent = attackStack > 0 ? `+${attackStack}` : '0';
+    }
+
+    if (drawAmountDisplay) {
+        drawAmountDisplay.textContent = attackStack > 0 ? attackStack : 0;
+    }
+
+    if (turnDisplay) {
+        if (currentTurn === 1) {
+            turnDisplay.textContent = player1.eliminated ? 'OUT' : player1.name;
+        } else if (currentTurn === 2) {
+            turnDisplay.textContent = player2.eliminated ? 'OUT' : player2.name;
+        } else if (currentTurn === 3) {
+            turnDisplay.textContent = player3.eliminated ? 'OUT' : player3.name;
+        }
+    }
+}
+
+
+function showWinner(player) {
+    gameOver = true;
+
+    const winnerMessage = document.getElementById('winnerMessage');
+
+    if (winnerMessage) {
+        winnerMessage.textContent = `🎉 ${player.name} is the Winner!`;
+        winnerMessage.style.display = 'block';
+    }
+
+    const restartButton = document.getElementById('restartGameButton');
+
+    if (restartButton) {
+        restartButton.style.display = 'block';
+    }
+
+    showMessage(`🎉 ${player.name} is the Winner!`);
+}
+
+
+function restartGame() {
+    gameOver = false;
+    currentTurn = 1;
+    clockwise = true;
+    attackStack = 0;
+
+    player1.hand = [];
+    player2.hand = [];
+    player3.hand = [];
+
+    player1.eliminated = false;
+    player2.eliminated = false;
+    player3.eliminated = false;
+
+    Cards = [];
+    discardPile = [];
+
+    const winnerMessage = document.getElementById('winnerMessage');
+
+    if (winnerMessage) {
+        winnerMessage.textContent = '';
+        winnerMessage.style.display = 'none';
+    }
+
+    const restartButton = document.getElementById('restartGameButton');
+
+    if (restartButton) {
+        restartButton.style.display = 'none';
+    }
+
+    shuffleCards();
+    dealCards();
+    renderGameUI();
+}
+
+
+function createRestartButton() {
+    let winnerMessage = document.getElementById('winnerMessage');
+    let restartButton = document.getElementById('restartGameButton');
+
+    if (!winnerMessage) {
+        winnerMessage = document.createElement('div');
+        winnerMessage.id = 'winnerMessage';
+        winnerMessage.style.display = 'none';
+        document.body.appendChild(winnerMessage);
+    }
+
+    if (!restartButton) {
+        restartButton = document.createElement('button');
+        restartButton.id = 'restartGameButton';
+        restartButton.textContent = 'Play Again';
+        restartButton.style.display = 'none';
+        restartButton.addEventListener('click', restartGame);
+        document.body.appendChild(restartButton);
+    }
+}
 
 
 function chooseColorModal() {
@@ -191,7 +328,7 @@ function handleZeroCard() {
         player3.hand = player1.hand;
         player1.hand = tempHand;
     }
-    alert("🔄 Card 0! All hands have been rotated!");
+    showMessage("🔄 Card 0! All hands have been rotated!");
 }
 
 
@@ -201,7 +338,7 @@ async function handleSevenCard(whoPlayed) {
         const tempHand = [...player1.hand];
         player1.hand = [...targetPlayer.hand];
         targetPlayer.hand = tempHand;
-        alert(`🔄 Swapped hands with ${targetPlayer.name}!`);
+        showMessage(`🔄 Swapped hands with ${targetPlayer.name}!`);
     } else {
         const candidates = [player1, player2, player3].filter(p => p !== whoPlayed && !p.eliminated);
         if (candidates.length > 0) {
@@ -217,22 +354,21 @@ async function handleSevenCard(whoPlayed) {
 
 
 
-
 function checkMercyRule(player) {
     if (player.hand.length >= 25 && !player.eliminated) {
         player.eliminated = true;
         player.hand = [];
-        alert(`💥 Mercy Rule! ${player.name} has 25 or more cards and is OUT of the game!`);
+        showMessage(`💥 Mercy Rule! ${player.name} has 25 or more cards and is OUT of the game!`);
 
         const activePlayers = [player1, player2, player3].filter(p => !p.eliminated);
 
         if (activePlayers.length === 1) {
-            alert(`🎉 ${activePlayers[0].name} Wins the game by Mercy Rule!`);
+            showWinner(activePlayers[0]);
             return true;
         }
 
         if (player === player1) {
-            alert("Game Over! You were eliminated by Mercy Rule.");
+            showMessage("Game Over! You were eliminated by Mercy Rule.");
             return true;
         }
 
@@ -280,11 +416,14 @@ function getBestColorForBot(botHand) {
 
 
 
-
 async function playCard(cardIndex) {
 
+    if (gameOver) {
+        return;
+    }
+
     if (currentTurn !== 1 || player1.eliminated) {
-        alert("Wait for your turn!");
+        showMessage("Wait for your turn!");
         return;
     }
 
@@ -292,7 +431,7 @@ async function playCard(cardIndex) {
     const currentTopCard = discardPile[discardPile.length - 1];
 
     if (attackStack > 0 && !selectedCard.type.includes("+")) {
-        alert(`You are under attack (+${attackStack})! Play a + card or draw cards.`);
+        showMessage(`You are under attack (+${attackStack})! Play a + card or draw cards.`);
         return;
     }
 
@@ -309,7 +448,7 @@ async function playCard(cardIndex) {
         selectedCard.type === "playAll";
 
     if (!canPlay) {
-        alert("You can't play this card!");
+        showMessage("You can't play this card!");
         return;
     }
 
@@ -328,7 +467,7 @@ async function playCard(cardIndex) {
         if (sameColorCards.length > 0) {
             discardPile.push(...sameColorCards);
             player1.hand = player1.hand.filter(c => c.color !== selectedCard.color);
-            alert(`🗑️ Discarded all ${sameColorCards.length + 1} ${selectedCard.color} cards!`);
+            showMessage(`🗑️ Discarded all ${sameColorCards.length + 1} ${selectedCard.color} cards!`);
         }
     }
 
@@ -348,12 +487,12 @@ async function playCard(cardIndex) {
         renderGameUI();
 
         if (player1.hand.length === 0) {
-            // alert("You Win!");
-            messageDisplay.textContent = 'You Win!'
+            showWinner(player1);
             return;
         }
 
         currentTurn = getNextTurn(getNextTurn(1));
+        updateGameStatus();
 
         setTimeout(() => {
             triggerTurn();
@@ -370,12 +509,12 @@ async function playCard(cardIndex) {
         renderGameUI();
 
         if (player1.hand.length === 0) {
-            // alert("You Win!");
-            messageDisplay.textContent = 'You Win!'
+            showWinner(player1);
             return;
         }
 
         currentTurn = getNextTurn(1);
+        updateGameStatus();
 
         setTimeout(() => {
             triggerTurn();
@@ -393,15 +532,16 @@ async function playCard(cardIndex) {
 
 
     renderGameUI();
+    updateGameStatus();
 
     if (player1.hand.length === 0) {
-        // alert("You Win!");
-        messageDisplay.textContent = 'You Win!'
-
+        showWinner(player1);
         return;
     }
 
     currentTurn = getNextTurn(1);
+    updateGameStatus();
+
     setTimeout(() => {
         triggerTurn();
     }, 1000);
@@ -410,13 +550,17 @@ async function playCard(cardIndex) {
 
 
 function playerDrawCard() {
+    if (gameOver) {
+        return;
+    }
+
     if (currentTurn !== 1 || player1.eliminated) {
-        alert("Wait for your turn to draw a card! ⏳");
+        showMessage("Wait for your turn to draw a card! ⏳");
         return;
     }
 
     if (attackStack > 0) {
-        alert(`You drew ${attackStack} cards due to attack!`);
+        showMessage(`You drew ${attackStack} cards due to attack!`);
 
         for (let i = 0; i < attackStack; i++) {
             if (Cards.length > 0) {
@@ -434,6 +578,7 @@ function playerDrawCard() {
         renderGameUI();
 
         currentTurn = getNextTurn(1);
+        updateGameStatus();
         setTimeout(() => triggerTurn(), 1500);
         return;
     }
@@ -452,14 +597,19 @@ function playerDrawCard() {
         renderGameUI();
 
         currentTurn = getNextTurn(1);
+        updateGameStatus();
         setTimeout(() => triggerTurn(), 1500);
     } else {
-        alert("The cards in the draw pile have run out! We will reshuffle the deck later.");
+        showMessage("The cards in the draw pile have run out! We will reshuffle the deck later.");
     }
 }
 
 
 function triggerTurn() {
+    if (gameOver) {
+        return;
+    }
+
     if (currentTurn === 2) {
         computerTurn(player2, 2);
     } else if (currentTurn === 3) {
@@ -471,6 +621,10 @@ function triggerTurn() {
 
 
 function computerTurn(computerPlayer, botNum) {
+
+    if (gameOver) {
+        return;
+    }
 
     if (computerPlayer.eliminated) {
         currentTurn = getNextTurn(botNum);
@@ -500,13 +654,16 @@ function computerTurn(computerPlayer, botNum) {
             console.log(computerPlayer.name + " stacked " + playedCard.type + "! Total attack: " + attackStack);
 
             renderGameUI();
+            updateGameStatus();
 
             if (computerPlayer.hand.length === 0) {
-                alert(computerPlayer.name + " Wins!");
+                showWinner(computerPlayer);
                 return;
             }
 
             currentTurn = getNextTurn(botNum);
+            updateGameStatus();
+
             setTimeout(() => triggerTurn(), 1000);
 
             return;
@@ -528,6 +685,7 @@ function computerTurn(computerPlayer, botNum) {
                 const active = [player1, player2, player3].filter(p => !p.eliminated);
                 if (active.length > 1) {
                     currentTurn = getNextTurn(botNum);
+                    updateGameStatus();
                     setTimeout(() => triggerTurn(), 1000);
                 }
                 return;
@@ -536,6 +694,7 @@ function computerTurn(computerPlayer, botNum) {
             renderGameUI();
 
             currentTurn = getNextTurn(botNum);
+            updateGameStatus();
             setTimeout(() => triggerTurn(), 1000);
 
             return;
@@ -602,11 +761,13 @@ function computerTurn(computerPlayer, botNum) {
             renderGameUI();
 
             if (computerPlayer.hand.length === 0) {
-                alert(computerPlayer.name + " Wins!");
+                showWinner(computerPlayer);
                 return;
             }
 
             currentTurn = getNextTurn(getNextTurn(botNum));
+            updateGameStatus();
+
             setTimeout(() => triggerTurn(), 1000);
 
             return;
@@ -626,6 +787,7 @@ function computerTurn(computerPlayer, botNum) {
                 const active = [player1, player2, player3].filter(p => !p.eliminated);
                 if (active.length > 1) {
                     currentTurn = getNextTurn(botNum);
+                    updateGameStatus();
                     setTimeout(() => triggerTurn(), 1000);
                 }
                 return;
@@ -635,22 +797,11 @@ function computerTurn(computerPlayer, botNum) {
 
     }
 
-    renderGameUI();
-
-    if (computerPlayer.hand.length === 0) {
-
-        alert(computerPlayer.name + " Wins!");
-
-        return;
-
-    }
-
 
     if (playedCard && playedCard.type === "+2") attackStack += 2;
     else if (playedCard && playedCard.type === "wild+4") attackStack += 4;
     else if (playedCard && playedCard.type === "wild+6") attackStack += 6;
     else if (playedCard && playedCard.type === "wild+10") attackStack += 10;
-
 
     if (playedCard && playedCard.type === "AnotherSide") {
 
@@ -658,13 +809,21 @@ function computerTurn(computerPlayer, botNum) {
 
     }
 
+    renderGameUI();
+    updateGameStatus();
+
+    if (computerPlayer.hand.length === 0) {
+        showWinner(computerPlayer);
+        return;
+    }
+
 
     currentTurn = getNextTurn(botNum);
+    updateGameStatus();
+
     setTimeout(() => triggerTurn(), 1000);
 
 }
-
-
 
 
 function renderGameUI() {
@@ -712,4 +871,7 @@ function renderGameUI() {
             playerHandDisplayDiv.appendChild(cardImg);
         });
     }
+
+    updateGameStatus();
+    createRestartButton();
 }
