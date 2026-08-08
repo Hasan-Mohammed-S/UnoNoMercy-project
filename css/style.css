@@ -1,290 +1,558 @@
-                            Body {
-                                background-image: url('../Uno no mercy cards/background1.png');
-                                background-size: cover;
-                                background-position: center;
-                                background-attachment: fixed;
-                                background-repeat: no-repeat;
-                                display: flex;
-                                justify-content: center;
-                                flex-flow: column wrap;
-                                align-items: center;
-                                /* height: 100vh; */
-                                width: 100vw;
-                            }
-                            
-                            h1 {
-                                color: #f6ff00;
-                                text-align: center;
-                                text-shadow: 2px 2px #000000;
-                                font-size: 50px;
-                                padding: 30px;
-                            }
-                            
-                            h2 {
-                                font-size: 50px;
-                            }
-                            
-                            .home-page {
-                                align-items: center;
-                                background-color: #026a00;
-                                padding: 100px;
-                                width: 350px;
-                                justify-content: flex-end;
-                                align-content: center;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                flex-direction: column;
-                                border-radius: 20px;
-                                border: 5px solid #000000;
-                            }
-                            
-                            input {
-                                background-color: #888883;
-                                color: black;
-                                padding: 15px 32px;
-                                text-align: center;
-                                text-decoration: none;
-                                display: inline-block;
-                                font-size: 15px;
-                                margin: 4px 2px;
-                                cursor: pointer;
-                                border: none;
-                            }
-                            
-                            div button {
-                                background-color: #888883;
-                                color: black;
-                                padding: 15px 32px;
-                                text-align: center;
-                                text-decoration: none;
-                                display: inline-block;
-                                font-size: 15px;
-                                margin: 4px 2px;
-                                cursor: pointer;
-                                border: none;
-                            }
-                            
-                            div .game-page {
-                                border: 5px solid #000000;
-                                background-color: #026a00;
-                                padding: 100px;
-                                width: 350px;
-                                justify-content: flex-end;
-                                align-items: center;
-                                display: flex;
-                                flex-direction: column;
-                            }
-                            
-                            .game-card {
-                                width: 100px;
-                                height: 150px;
-                                margin: 5px;
-                                border-radius: 10px;
-                                cursor: pointer;
-                                transition: transform 0.2s;
-                            }
-                            
-                            .game-card:hover {
-                                transform: translateY(-10px);
-                            }
-                            
-                            #GameArea {
-                                background-color: #6f3608;
-                                border: 12px solid #4a2305;
-                                border-radius: 50%;
-                                width: 600px;
-                                height: 400px;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                gap: 50px;
-                                margin: 30px auto;
-                                box-sizing: border-box;
-                                box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.6);
-                            }
-                            
-                            #GameArea h,
-                            #GameArea p {
-                                color: #ffffff;
-                                text-shadow: 2px 2px 4px #000000;
-                                margin: 5px 0;
-                                font-size: 18px;
-                                text-align: center;
-                                font-family: sans-serif;
-                            }
-                            
-                            #currentCardArea,
-                            #drawPile {
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                justify-content: center;
-                            }
-                            
-                            .opponents-container {
-                                display: flex;
-                                justify-content: center;
-                                gap: 100px;
-                                margin-bottom: 10px;
-                                width: 100%;
-                            }
-                            
-                            .bot-profile {
-                                background-color: #2c3e50;
-                                color: white;
-                                padding: 15px 25px;
-                                border-radius: 15px;
-                                border: 3px solid #34495e;
-                                text-align: center;
-                                min-width: 120px;
-                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-                                transition: all 0.4s ease;
-                            }
-                            
-                            .bot-profile h3 {
-                                margin: 0 0 5px 0;
-                                font-size: 18px;
-                            }
-                            
-                            .bot-profile p {
-                                margin: 0;
-                                font-size: 16px;
-                                font-weight: bold;
-                                color: #f1c40f;
-                            }
-                            
-                            .active-turn-glow {
-                                border-color: #ffd700 !important;
-                                box-shadow: 0 0 25px #ffd700, inset 0 0 10px #ffd700 !important;
-                                transform: scale(1.05);
-                            }
-                            
-                            div #DrawCardButton {
-                                background-image: url('./Uno no mercy cards/Draw.png');
-                                color: black;
-                                padding: 15px 32px;
-                                text-align: center;
-                                text-decoration: none;
-                                display: inline-block;
-                                font-size: 15px;
-                                /*margin: 4px 2px;
-                                        cursor: pointer;
-                                        border: none;*/
-                            }
-                            
-                            .deck-card-back {
-                                width: 100px;
-                                height: 150px;
-                                background-image: url('../Uno no mercy cards/Draw.png');
-                                background-size: cover;
-                                background-position: center;
-                                border-radius: 10px;
-                                border: 2px solid rgba(255, 255, 255, 0.4);
-                                box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.6);
-                                cursor: pointer;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                transition: transform 0.2s ease, box-shadow 0.2s ease;
-                            }
-                            
-                            .deck-card-back:hover {
-                                transform: rotateX(20deg) rotateZ(5deg) translateY(-5px);
-                                box-shadow: -8px 15px 20px rgba(0, 0, 0, 0.7);
-                            }
-                            
-                            .draw-text {
-                                color: white;
-                                font-weight: bold;
-                                font-size: 14px;
-                                background-color: rgba(0, 0, 0, 0.6);
-                                padding: 4px 8px;
-                                border-radius: 5px;
-                                font-family: sans-serif;
-                                letter-spacing: 1px;
-                                pointer-events: none;
-                            }
-                            
-                            h3 {
-                                font-weight: bold;
-                                font-size: 20px;
-                                text-align: center;
-                                text-shadow: 1px 1px 2px #000000;
-                                font-family: sans-serif;
-                                color: #2d8ca3;
-                            }
-                            /* Container for color swatches */
-                            
-                            .color-options {
-                                display: flex;
-                                flex-wrap: wrap;
-                                justify-content: center;
-                                align-items: center;
-                                gap: 16px;
-                                padding: 15px;
-                            }
-                            /* Individual Color Swatch/Option */
-                            
-                            .color-option {
-                                width: 55px;
-                                height: 55px;
-                                border-radius: 50%;
-                                border: 3px solid rgba(255, 255, 255, 0.85);
-                                outline: none;
-                                cursor: pointer;
-                                position: relative;
-                                transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-                            }
-                            /* Hover Effect - Lift & Enlarge */
-                            
-                            .color-option:hover {
-                                transform: translateY(-4px) scale(1.12);
-                                border-color: #ffffff;
-                            }
-                            /* Click Effect */
-                            
-                            .color-option:active {
-                                transform: scale(0.95);
-                            }
-                            /* Selected State Ring */
-                            
-                            .color-option.selected {
-                                border-color: #ffffff;
-                                transform: scale(1.15);
-                                box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35), 0 8px 20px rgba(0, 0, 0, 0.4);
-                            }
-                            /* Color Variants with Vibrant Gradients & Matching Glows */
-                            
-                            .color-option.red {
-                                background: linear-gradient(135deg, #ff5252, #e74c3c);
-                            }
-                            
-                            .color-option.red:hover {
-                                box-shadow: 0 8px 22px rgba(231, 76, 60, 0.6);
-                            }
-                            
-                            .color-option.blue {
-                                background: linear-gradient(135deg, #448aff, #3498db);
-                            }
-                            
-                            .color-option.blue:hover {
-                                box-shadow: 0 8px 22px rgba(52, 152, 219, 0.6);
-                            }
-                            
-                            .color-option.green {
-                                background: linear-gradient(135deg, #69f0ae, #2ecc71);
-                            }
-                            
-                            .color-option.green:hover {
-                                box-shadow: 0 8px 22px rgba(46, 204, 113, 0.6);
-                            }
-                            
-                            .color-option.yellow {
-                                background: linear-gradient(135deg, #ffd740, #f1c40f);
-                            }
-                            
-                            .color-option.yellow:hover {
-                                box-shadow: 0 8px 22px rgba(241, 196, 15, 0.6);
-                            }
+body {
+    background-image: url('../Uno no mercy cards/background1.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    flex-flow: column wrap;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    color: #f6ff00;
+    text-align: center;
+    text-shadow: 2px 2px #000000;
+    font-size: 50px;
+    padding: 30px;
+}
+
+h2 {
+    font-size: 50px;
+}
+
+h3 {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 2px #000000;
+    font-family: sans-serif;
+    color: #2d8ca3;
+}
+
+.home-page {
+    align-items: center;
+    background-color: #026a00;
+    padding: 100px;
+    width: 350px;
+    justify-content: center;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 5px solid #000000;
+}
+
+input {
+    background-color: #888883;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border: none;
+}
+
+div button {
+    background-color: #888883;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border: none;
+}
+
+div .game-page {
+    border: 5px solid #000000;
+    background-color: #026a00;
+    padding: 100px;
+    width: 350px;
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-card {
+    width: 100px;
+    height: 150px;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.game-card:hover {
+    transform: translateY(-10px);
+}
+
+.game-board-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+#GameArea {
+    background-color: #6f3608;
+    border: 12px solid #4a2305;
+    border-radius: 50%;
+    width: 600px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin: 30px 0;
+    box-sizing: border-box;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+#GameArea h,
+#GameArea p {
+    color: #ffffff;
+    text-shadow: 2px 2px 4px #000000;
+    margin: 5px 0;
+    font-size: 18px;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+#currentCardArea,
+#drawPile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.opponents-container {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.bot-profile {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    border: 3px solid #34495e;
+    text-align: center;
+    min-width: 120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease;
+}
+
+.bot-profile h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.bot-profile p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #f1c40f;
+}
+
+.active-turn-glow {
+    border-color: #ffd700 !important;
+    box-shadow: 0 0 25px #ffd700, inset 0 0 10px #ffd700 !important;
+    transform: scale(1.05);
+}
+
+div #DrawCardButton {
+    background-image: url('./Uno no mercy cards/Draw.png');
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+}
+
+.deck-card-back {
+    width: 100px;
+    height: 150px;
+    background-image: url('../Uno no mercy cards/Draw.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deck-card-back:hover {
+    transform: rotateX(20deg) rotateZ(5deg) translateY(-5px);
+    box-shadow: -8px 15px 20px rgba(0, 0, 0, 0.7);
+}
+
+.draw-text {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    pointer-events: none;
+}
+
+.game-status-panel {
+    width: 190px;
+    min-width: 190px;
+    padding: 18px;
+    background-color: rgba(30, 30, 30, 0.95);
+    color: white;
+    border: 3px solid #34495e;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+}
+
+.game-status-panel h3 {
+    margin: 0 0 15px 0;
+    color: #00a8e8;
+    font-size: 20px;
+}
+
+.status-item {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+}
+
+.status-item span {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.status-item strong {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#currentColorDisplay {
+    padding: 5px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.color-red {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.color-blue {
+    background-color: #3498db;
+    color: white;
+}
+
+.color-green {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.color-yellow {
+    background-color: #f1c40f;
+    color: #222;
+}
+
+#attackDisplay {
+    color: #ff5252;
+}
+
+#drawAmountDisplay {
+    color: #f1c40f;
+}
+
+#currentTurnDisplay {
+    color: #2ecc71;
+}
+
+.message-display {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(30, 30, 30, 0.95);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: 2px solid #34495e;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.message-display.show {
+    display: block;
+}
+
+.color-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 15px;
+}
+
+.color-option {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.color-option:hover {
+    transform: translateY(-4px) scale(1.12);
+    border-color: #ffffff;
+}
+
+.color-option:active {
+    transform: scale(0.95);
+}
+
+.color-option.selected {
+    border-color: #ffffff;
+    transform: scale(1.15);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35), 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.color-option.red {
+    background: linear-gradient(135deg, #ff5252, #e74c3c);
+}
+
+.color-option.red:hover {
+    box-shadow: 0 8px 22px rgba(231, 76, 60, 0.6);
+}
+
+.color-option.blue {
+    background: linear-gradient(135deg, #448aff, #3498db);
+}
+
+.color-option.blue:hover {
+    box-shadow: 0 8px 22px rgba(52, 152, 219, 0.6);
+}
+
+.color-option.green {
+    background: linear-gradient(135deg, #69f0ae, #2ecc71);
+}
+
+.color-option.green:hover {
+    box-shadow: 0 8px 22px rgba(46, 204, 113, 0.6);
+}
+
+.color-option.yellow {
+    background: linear-gradient(135deg, #ffd740, #f1c40f);
+}
+
+.color-option.yellow:hover {
+    box-shadow: 0 8px 22px rgba(241, 196, 15, 0.6);
+}
+
+@media (max-width: 900px) {
+    .game-board-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .game-status-panel {
+        width: 500px;
+        max-width: 90%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+    .game-status-panel h3 {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .status-item {
+        min-width: 100px;
+    }
+    #GameArea {
+        margin: 10px 0;
+    }
+    .opponents-container {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 650px) {
+    h1 {
+        font-size: 32px;
+        padding: 15px;
+    }
+    #GameArea {
+        width: 95vw;
+        height: 350px;
+        gap: 20px;
+    }
+    .game-card {
+        width: 70px;
+        height: 105px;
+    }
+    .deck-card-back {
+        width: 70px;
+        height: 105px;
+    }
+    .opponents-container {
+        gap: 10px;
+    }
+    .bot-profile {
+        padding: 10px;
+        min-width: 100px;
+    }
+}
+
+#winnerModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#winnerBox {
+    width: 450px;
+    min-height: 300px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+#winnerTitle {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+#winnerName {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 35px;
+}
+
+#restartGameButton {
+    padding: 14px 35px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.message-display {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: black;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    z-index: 10000;
+    display: none;
+}
+
+.message-display.show {
+    display: block;
+}
+
+#winnerModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#winnerBox {
+    width: 450px;
+    min-height: 300px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+#winnerTitle {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+#winnerName {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 35px;
+}
+
+#restartGameButton {
+    padding: 14px 35px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}

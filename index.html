@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="./css/style.css">
+
     <script defer src="./js/app.js"></script>
     <script defer src="./data.js"></script>
 
@@ -12,65 +14,197 @@
 </head>
 
 <body>
+
     <h1 class="game-title">Welcome to UNO Show'Em No Mercy</h1>
+
+
+    <!-- Home Page -->
     <div class="home-page">
 
         <h3>Enter your name</h3>
 
         <input type="text" class="playerName" placeholder="Enter your name">
-        <br/>
-        <button class="start">Start Game</button>
+
+        <br>
+
+        <button class="start">
+            Start Game
+        </button>
+
     </div>
 
 
+    <!-- Game Page -->
     <div class="gamePage" style="display: none;">
 
+
+        <!-- Computers -->
         <div class="opponents-container">
+
             <div id="bot2-info" class="bot-profile">
+
                 <h3>Computer 1 🤖</h3>
-                <p>Cards: <span id="bot1CardCount">7</span></p>
+
+                <p>
+                    Cards:
+                    <span id="bot1CardCount">7</span>
+                </p>
+
             </div>
+
 
             <div id="bot3-info" class="bot-profile">
+
                 <h3>Computer 2 🤖</h3>
-                <p>Cards: <span id="bot2CardCount">7</span></p>
+
+                <p>
+                    Cards:
+                    <span id="bot2CardCount">7</span>
+                </p>
+
             </div>
+
         </div>
 
+
+        <!-- Game Messages -->
         <div class="message-display"></div>
 
 
-        <div id="GameArea">
-            <div class="table-area">
+        <!-- Game Board -->
+        <div class="game-board-container">
 
-                <div id="drawPile" class="deck-stack">
-                    <!-- <p>Card withdrawal</p> -->
+
+            <!-- Game Status Panel -->
+            <div class="game-status-panel">
+
+                <h3>Game Status</h3>
+
+
+                <div class="status-item">
+
+                    <span>🎨 Current Color</span>
+
+                    <strong id="currentColorDisplay">
+                        ---
+                    </strong>
+
                 </div>
-                <div id="currentCardArea"></div>
 
-                <!--  <h3>Card Now</h3>-->
-                <div id="discardPileCard"></div>
-                <!--<button id="drawCardButton" class="draw-btn" image="url('./Uno no mercy cards/Draw.png')">Draw Card 🃏</button>-->
-                <!--    <img id="drawCardImage" src="./Uno no mercy cards/Draw.png" alt="Draw Card" style="width: 100px; height: 150px;">-->
+
+                <div class="status-item">
+
+                    <span>⚔️ Attack</span>
+
+                    <strong id="attackDisplay">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>🃏 Cards to Draw</span>
+
+                    <strong id="drawAmountDisplay">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>👤 Current Turn</span>
+
+                    <strong id="currentTurnDisplay">
+                        ---
+                    </strong>
+
+                </div>
 
             </div>
 
-            <div id="drawCardButton" class="deck-card-back">
-                <span class="draw-text"></span>
+
+            <!-- UNO Table -->
+            <div id="GameArea">
+
+                <div class="table-area">
+
+
+                    <!-- Draw Pile -->
+                    <div id="drawPile" class="deck-stack">
+                        <!-- Cards are added by JavaScript -->
+                    </div>
+
+
+                    <!-- Current Card -->
+                    <div id="currentCardArea"></div>
+
+
+                    <!-- Discard Pile -->
+                    <div id="discardPileCard"></div>
+
+
+                </div>
+
+
+                <!-- Draw Card Button -->
+                <div id="drawCardButton" class="deck-card-back">
+
+                    <span class="draw-text"></span>
+
+                </div>
+
             </div>
+
+
         </div>
+
+
+        <!-- Player Section -->
         <div class="player-section">
-            <h3 id="displayPlayerName">Your Cards</h3>
+
+            <h3 id="displayPlayerName">
+                Your Cards
+            </h3>
+
             <div id="playerHandDisplay" class="hand-container"></div>
+
         </div>
+
+
     </div>
 
+
+    <!-- Color Options -->
+    <!--
     <div class="color-options">
-        <button class="color-option red" data-color="red"></button>
-        <button class="color-option blue" data-color="blue"></button>
-        <button class="color-option green" data-color="green"></button>
-        <button class="color-option yellow" data-color="yellow"></button>
+
+        <button 
+            class="color-option red" 
+            data-color="red"
+        ></button>
+
+        <button 
+            class="color-option blue" 
+            data-color="blue"
+        ></button>
+
+        <button 
+            class="color-option green" 
+            data-color="green"
+        ></button>
+
+        <button 
+            class="color-option yellow" 
+            data-color="yellow"
+        ></button>
+
     </div>
+    -->
+
 
 </body>
 
